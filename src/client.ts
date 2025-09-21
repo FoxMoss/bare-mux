@@ -156,7 +156,11 @@ export class BareClient {
 	): Promise<BareResponseFetch> {
 		// Only create an instance of Request to parse certain parameters of init such as method, headers, redirect
 		// But use init values whenever possible
-		const req = new Request(url, init);
+    let cloneinit = init;
+    if(cloneinit.headers !== undefined) {
+      cloneinit.headers["cookies"] = undefined;
+    }
+		const req = new Request(url, cloneinit);
 
 		// try to use init.headers because it may contain capitalized headers
 		// furthermore, important headers on the Request class are blocked...
